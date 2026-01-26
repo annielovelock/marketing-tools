@@ -167,7 +167,13 @@
       const s = safeFilenamePart(source.value) || "source";
       const m = safeFilenamePart(getMedium()) || "medium";
       const c = safeFilenamePart(campaign.value);
-      const parts = ["qr", s, m];
+      const now = new Date();
+      const dateStamp = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, "0"),
+        String(now.getDate()).padStart(2, "0")
+      ].join("");
+      const parts = ["qr", dateStamp, s, m];
       if (c) parts.push(c);
       return parts.join("_") + ".png";
     }
