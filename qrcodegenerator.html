@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QR Code Generator</title>
+  <link rel="icon" href="toolbox-solid.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="page-utm">
+  <nav class="siteNav">
+    <div class="navInner">
+      <a class="navBrand" href="index.html">Marketing Tools</a>
+      <button class="navToggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <div class="navLinks" id="navLinks">
+        <a href="utmlinkgenerator.html">🔗 UTM Link Generator</a>
+        <a href="qrcodegenerator.html" aria-current="page">📱 QR Code Generator</a>
+        <a href="charactercopychecker.html">✅ Copy Checker</a>
+        <a href="wordcharcounter.html">🔢 Word/Character Counter</a>
+        <a href="aptitles.html">📝 AP Title Caps</a>
+        <a href="symbollibrary.html">✳️ Symbol Library</a>
+        <a href="serppreview.html">🔍 SERP Preview</a>
+      </div>
+    </div>
+  </nav>
+  <div class="wrap">
+    <h1>QR Code Generator</h1>
+    <p>Create a QR code from any valid link and download the PNG.</p>
+
+    <div class="card">
+      <label>
+        Link <span class="req">(required)</span>
+        <span class="tip" tabindex="0" data-tip="Paste the full URL, including https://">i</span>
+      </label>
+      <input id="qrLink" type="url" placeholder="https://example.com/page" />
+
+      <div class="actions">
+        <button class="primary" id="clearBtn">Clear</button>
+      </div>
+
+      <div class="error" id="error"></div>
+
+      <div class="qrWrap" id="qrWrap">
+        <div class="qrHeader">
+          <div class="qrTitle">QR code for your link</div>
+          <button id="downloadQrBtn" disabled>Download QR (PNG)</button>
+        </div>
+        <div class="qrCanvasWrap">
+          <canvas id="qrCanvas" width="1024" height="1024" aria-label="QR code"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR library -->
+  <script src="https://unpkg.com/qrious@4.0.2/dist/qrious.min.js"></script>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const qrLink = $("qrLink");
+    const error = $("error");
+    const clearBtn = $("clearBtn");
+    const qrWrap = $("qrWrap");
+    const qrCanvas = $("qrCanvas");
+    const downloadQrBtn = $("downloadQrBtn");
+
+    const qr = new QRious({
+      element: qrCanvas,
+      size: 1024,
+      value: ""
+    });
+
+    function normalize(v) {
+      return (v || "")
+        .trim()
+        .toLowerCase()
+        .replace(/&/g, " and ")
+        .replace(/[\s-]+/g, "_")
+        .replace(/[^a-z0-9_]/g, "")
+        .replace(/_+/g, "_")
+        .replace(/^_+|_+$/g, "");
+    }
+
+    function validUrl(v) {
+      try {
+        new URL(v);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    function safeFilenamePart(v) {
+      const n = normalize(v);
+      return n ? n.slice(0, 40) : "";
+    }
+
+    function buildQrFilename(urlValue) {
+      let host = "link";
+      try {
+        const parsed = new URL(urlValue);
+        host = parsed.hostname || host;
+      } catch {}
+      const now = new Date();
+      const dateStamp = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, "0"),
+        String(now.getDate()).padStart(2, "0")
+      ].join("");
+      const safeHost = safeFilenamePart(host) || "link";
+      return ["qr", dateStamp, safeHost].join("_") + ".png";
+    }
+
+    function setQr(value) {
+      if (!value) {
+        qr.set({ value: "" });
+        qrWrap.style.display = "none";
+        downloadQrBtn.disabled = true;
+        return;
+      }
+      qr.set({ value });
+      qrWrap.style.display = "block";
+      downloadQrBtn.disabled = false;
+    }
+
+    function build() {
+      error.textContent = "";
+      setQr("");
+      const link = qrLink.value.trim();
+      if (!link) return;
+      if (!validUrl(link)) {
+        error.textContent = "Invalid URL. Include https://";
+        return;
+      }
+      setQr(link);
+    }
+
+    ["input", "change"].forEach((evt) => {
+      qrLink.addEventListener(evt, build);
+    });
+
+    downloadQrBtn.addEventListener("click", () => {
+      if (!qrLink.value.trim()) return;
+      const a = document.createElement("a");
+      a.download = buildQrFilename(qrLink.value.trim());
+      a.href = qrCanvas.toDataURL("image/png");
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    });
+
+    clearBtn.addEventListener("click", () => {
+      qrLink.value = "";
+      error.textContent = "";
+      setQr("");
+      qrLink.focus();
+    });
+
+    build();
+  </script>
+  <script src="script.js"></script>
+</body>
+
+</html>
