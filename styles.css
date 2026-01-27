@@ -84,6 +84,19 @@ body {
   max-width: 1100px;
 }
 
+.siteFooter {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 18px 28px;
+  color: #8f93a8;
+  font-size: 12px;
+  text-align: center;
+}
+
+.siteFooter small {
+  font-size: 100%;
+}
+
 .page-utm .wrap { max-width: 720px; }
 .page-aptitles .wrap { max-width: 960px; }
 .page-symbols .wrap { max-width: 980px; }
