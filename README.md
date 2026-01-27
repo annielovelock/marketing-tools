@@ -6,7 +6,7 @@ A lightweight set of marketing utilities built as static HTML/CSS/JS and publish
 After you enable Pages in your repo settings, the site will be available at:
 `https://<your-username>.github.io/<your-repo>/`
 
-Live site: `https://annielovelock.github.io/marketing-tools/`
+Live site: [https://annielovelock.github.io/marketing-tools/](https://annielovelock.github.io/marketing-tools/)
 
 ## Included tools
 - UTM Link Generator + QR
