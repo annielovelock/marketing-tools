@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Color Contrast Checker</title>
+  <meta name="description" content="Check WCAG color contrast ratios for text and background color combinations. Free browser-based accessibility tool." />
+  <link rel="icon" href="toolbox-solid.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-contrast">
+  <nav class="siteNav">
+    <div class="navInner">
+      <a class="navBrand" href="index.html">Marketing Tools</a>
+      <button class="navToggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <div class="navLinks" id="navLinks">
+        <a href="utmlinkgenerator.html">UTM Generator</a>
+        <a href="qrcodegenerator.html">QR Code</a>
+        <a href="charactercopychecker.html">Copy Checker</a>
+        <a href="wordcharcounter.html">Word Counter</a>
+        <a href="aptitles.html">AP Title Caps</a>
+        <a href="symbollibrary.html">Symbol Library</a>
+        <a href="serppreview.html">SERP Preview</a>
+        <a href="colorcontrast.html" aria-current="page">Contrast Checker</a>
+      </div>
+    </div>
+  </nav>
+  <main class="wrap">
+    <h1>Color Contrast Checker</h1>
+    <p>Check WCAG 2.1 contrast ratios for any text and background color combination.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Colors</h2>
+
+        <label for="textHex">Text color</label>
+        <div class="colorRow">
+          <input id="textPicker" type="color" value="#000000" />
+          <input id="textHex" type="text" value="#000000" maxlength="7" spellcheck="false" />
+        </div>
+
+        <label for="bgHex">Background color</label>
+        <div class="colorRow">
+          <input id="bgPicker" type="color" value="#ffffff" />
+          <input id="bgHex" type="text" value="#ffffff" maxlength="7" spellcheck="false" />
+        </div>
+
+        <div class="row">
+          <button id="swapBtn" type="button">Swap colors</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Results</h2>
+
+        <div id="previewPanel" class="contrastPreview">
+          <p class="previewLarge" id="previewLarge">Large text sample (18pt / 14pt bold)</p>
+          <p class="previewNormal" id="previewNormal">Normal text sample (under 18pt regular)</p>
+        </div>
+
+        <div class="contrastRatio">
+          <span class="contrastLabel">Contrast ratio</span>
+          <span class="contrastValue" id="ratioDisplay">21:1</span>
+        </div>
+
+        <div class="badgeGrid">
+          <div class="badgeItem">
+            <span class="badgeLabel">AA Normal</span>
+            <span class="badge" id="badgeAANormal">Pass</span>
+          </div>
+          <div class="badgeItem">
+            <span class="badgeLabel">AA Large</span>
+            <span class="badge" id="badgeAALarge">Pass</span>
+          </div>
+          <div class="badgeItem">
+            <span class="badgeLabel">AAA Normal</span>
+            <span class="badge" id="badgeAAANormal">Pass</span>
+          </div>
+          <div class="badgeItem">
+            <span class="badgeLabel">AAA Large</span>
+            <span class="badge" id="badgeAAALarge">Pass</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    const textPicker = document.getElementById("textPicker");
+    const textHex    = document.getElementById("textHex");
+    const bgPicker   = document.getElementById("bgPicker");
+    const bgHex      = document.getElementById("bgHex");
+    const swapBtn    = document.getElementById("swapBtn");
+
+    const previewPanel  = document.getElementById("previewPanel");
+    const previewLarge  = document.getElementById("previewLarge");
+    const previewNormal = document.getElementById("previewNormal");
+    const ratioDisplay  = document.getElementById("ratioDisplay");
+
+    const badgeAANormal  = document.getElementById("badgeAANormal");
+    const badgeAALarge   = document.getElementById("badgeAALarge");
+    const badgeAAANormal = document.getElementById("badgeAAANormal");
+    const badgeAAALarge  = document.getElementById("badgeAAALarge");
+
+    function parseHex(raw) {
+      let h = (raw || "").trim().replace(/^#/, "");
+      if (h.length === 3) {
+        h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+      }
+      if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+      return {
+        r: parseInt(h.slice(0, 2), 16),
+        g: parseInt(h.slice(2, 4), 16),
+        b: parseInt(h.slice(4, 6), 16)
+      };
+    }
+
+    function relativeLuminance(rgb) {
+      const ch = [rgb.r, rgb.g, rgb.b].map(c => {
+        const s = c / 255;
+        return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * ch[0] + 0.7152 * ch[1] + 0.0722 * ch[2];
+    }
+
+    function contrastRatio(l1, l2) {
+      const lighter = Math.max(l1, l2);
+      const darker  = Math.min(l1, l2);
+      return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    function toPickerHex(val) {
+      const rgb = parseHex(val);
+      if (!rgb) return null;
+      return "#" + [rgb.r, rgb.g, rgb.b]
+        .map(c => c.toString(16).padStart(2, "0"))
+        .join("");
+    }
+
+    function setBadge(el, pass) {
+      el.textContent = pass ? "Pass" : "Fail";
+      el.className   = "badge " + (pass ? "ok" : "over");
+    }
+
+    function render() {
+      const textRgb = parseHex(textHex.value);
+      const bgRgb   = parseHex(bgHex.value);
+
+      if (!textRgb || !bgRgb) return;
+
+      const textColor = toPickerHex(textHex.value);
+      const bgColor   = toPickerHex(bgHex.value);
+
+      previewPanel.style.backgroundColor = bgColor;
+      previewLarge.style.color           = textColor;
+      previewNormal.style.color          = textColor;
+
+      const lText = relativeLuminance(textRgb);
+      const lBg   = relativeLuminance(bgRgb);
+      const ratio = contrastRatio(lText, lBg);
+
+      ratioDisplay.textContent = ratio.toFixed(2) + ":1";
+
+      setBadge(badgeAANormal,  ratio >= 4.5);
+      setBadge(badgeAALarge,   ratio >= 3);
+      setBadge(badgeAAANormal, ratio >= 7);
+      setBadge(badgeAAALarge,  ratio >= 4.5);
+    }
+
+    // Sync color picker -> text input
+    textPicker.addEventListener("input", () => {
+      textHex.value = textPicker.value;
+      render();
+    });
+    bgPicker.addEventListener("input", () => {
+      bgHex.value = bgPicker.value;
+      render();
+    });
+
+    // Sync text input -> color picker
+    textHex.addEventListener("input", () => {
+      const h = toPickerHex(textHex.value);
+      if (h) textPicker.value = h;
+      render();
+    });
+    bgHex.addEventListener("input", () => {
+      const h = toPickerHex(bgHex.value);
+      if (h) bgPicker.value = h;
+      render();
+    });
+
+    swapBtn.addEventListener("click", () => {
+      const tmpHex = textHex.value;
+      textHex.value = bgHex.value;
+      bgHex.value   = tmpHex;
+
+      const tmpPicker = textPicker.value;
+      textPicker.value = bgPicker.value;
+      bgPicker.value   = tmpPicker;
+
+      render();
+    });
+
+    render();
+  </script>
+  <footer class="siteFooter"><small>Last Updated: 4/2/26</small></footer>
+</body>
+</html>
