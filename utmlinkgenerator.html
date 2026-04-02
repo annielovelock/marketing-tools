@@ -5,7 +5,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UTM Link Generator + QR</title>
+  <meta name="description" content="Generate UTM tracking links with automatic normalization and a downloadable QR code. Free, browser-based, no sign-up." />
   <link rel="icon" href="toolbox-solid.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -25,7 +28,7 @@
       </div>
     </div>
   </nav>
-  <div class="wrap">
+  <main class="wrap">
     <h1>UTM Link Generator</h1>
     <p>Build clean tracking links with normalized UTMs and a downloadable QR code.</p>
 
@@ -43,7 +46,7 @@
       </label>
       <input id="source" type="text" placeholder="partner_name" />
 
-      <label>
+      <label for="mediumSelect">
         Medium <span class="req">(required)</span>
         <span class="tip" tabindex="0"
           data-tip="Describes how the traffic arrived, such as newsletter, sponsored_content, or display.">i</span>
