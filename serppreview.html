@@ -8,22 +8,29 @@
   <link rel="icon" href="toolbox-solid.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="styles.css" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="SERP Preview + Meta Length Checker — Marketing Tools" />
+  <meta property="og:image" content="https://annielovelock.github.io/marketing-tools/og/og-serp.png" />
+  <meta property="og:url" content="https://annielovelock.github.io/marketing-tools/serppreview.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://annielovelock.github.io/marketing-tools/og/og-serp.png" />
 </head>
 <body class="page-serp">
   <nav class="siteNav">
     <div class="navInner">
-      <a class="navBrand" href="index.html">Marketing Tools</a>
+      <a class="navBrand" href="index.html" aria-label="Home"><i class="fa-solid fa-house"></i></a>
       <button class="navToggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
       <div class="navLinks" id="navLinks">
-        <a href="utmlinkgenerator.html">🔗 UTM Link Generator</a>
-        <a href="qrcodegenerator.html">📱 QR Code Generator</a>
-        <a href="charactercopychecker.html">✅ Copy Checker</a>
-        <a href="wordcharcounter.html">🔢 Word/Character Counter</a>
-        <a href="aptitles.html">📝 AP Title Caps</a>
-        <a href="symbollibrary.html">✳️ Symbol Library</a>
-        <a href="serppreview.html" aria-current="page">🔍 SERP Preview</a>
-        <a href="colorcontrast.html">🎨 Contrast Checker</a>
+        <a href="utmlinkgenerator.html">UTM Generator</a>
+        <a href="qrcodegenerator.html">QR Code</a>
+        <a href="charactercopychecker.html">Copy Checker</a>
+        <a href="wordcharcounter.html">Word Counter</a>
+        <a href="aptitles.html">AP Title Caps</a>
+        <a href="symbollibrary.html">Symbol Library</a>
+        <a href="serppreview.html" aria-current="page">SERP Preview</a>
+        <a href="colorcontrast.html">Contrast Checker</a>
       </div>
     </div>
   </nav>
@@ -163,7 +170,7 @@
         Treat this tool as a fast preview, then apply human judgment before publishing.
       </p>
     </section>
-  </div>
+  </main>
 
   <script>
     const $ = (id) => document.getElementById(id);
@@ -314,8 +321,7 @@
       }
 
       serpTitle.textContent = truncTitle;
-
-
+      serpDesc.textContent = truncDesc;
     }
 
     // Wire up
@@ -347,6 +353,6 @@
     render();
   </script>
   <script src="script.js"></script>
-  <footer class="siteFooter"><small>Last Updated: 1/27/26</small></footer>
+  <footer class="siteFooter"><small>Last Updated: 4/2/26</small></footer>
 </body>
 </html>

@@ -9,23 +9,30 @@
   <link rel="icon" href="toolbox-solid.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="styles.css" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="UTM Link Generator + QR — Marketing Tools" />
+  <meta property="og:image" content="https://annielovelock.github.io/marketing-tools/og/og-utm.png" />
+  <meta property="og:url" content="https://annielovelock.github.io/marketing-tools/utmlinkgenerator.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://annielovelock.github.io/marketing-tools/og/og-utm.png" />
 </head>
 
 <body class="page-utm">
   <nav class="siteNav">
     <div class="navInner">
-      <a class="navBrand" href="index.html">Marketing Tools</a>
+      <a class="navBrand" href="index.html" aria-label="Home"><i class="fa-solid fa-house"></i></a>
       <button class="navToggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
       <div class="navLinks" id="navLinks">
-        <a href="utmlinkgenerator.html" aria-current="page">🔗 UTM Link Generator</a>
-        <a href="qrcodegenerator.html">📱 QR Code Generator</a>
-        <a href="charactercopychecker.html">✅ Copy Checker</a>
-        <a href="wordcharcounter.html">🔢 Word/Character Counter</a>
-        <a href="aptitles.html">📝 AP Title Caps</a>
-        <a href="symbollibrary.html">✳️ Symbol Library</a>
-        <a href="serppreview.html">🔍 SERP Preview</a>
-        <a href="colorcontrast.html">🎨 Contrast Checker</a>
+        <a href="utmlinkgenerator.html" aria-current="page">UTM Generator</a>
+        <a href="qrcodegenerator.html">QR Code</a>
+        <a href="charactercopychecker.html">Copy Checker</a>
+        <a href="wordcharcounter.html">Word Counter</a>
+        <a href="aptitles.html">AP Title Caps</a>
+        <a href="symbollibrary.html">Symbol Library</a>
+        <a href="serppreview.html">SERP Preview</a>
+        <a href="colorcontrast.html">Contrast Checker</a>
       </div>
     </div>
   </nav>
@@ -41,14 +48,14 @@
       <input id="dest" type="url" placeholder="https://example.com/page" />
 
       <label>
-        Source <span class="req">(required)</span>
+        Source <span class="pill">optional</span>
         <span class="tip" tabindex="0"
           data-tip="Identifies the referring website, platform, or partner sending the traffic.">i</span>
       </label>
       <input id="source" type="text" placeholder="partner_name" />
 
       <label for="mediumSelect">
-        Medium <span class="req">(required)</span>
+        Medium <span class="pill">optional</span>
         <span class="tip" tabindex="0"
           data-tip="Describes how the traffic arrived, such as newsletter, sponsored_content, or display.">i</span>
       </label>
@@ -110,7 +117,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </main>
 
   <!-- QR library -->
   <script src="https://unpkg.com/qrious@4.0.2/dist/qrious.min.js"></script>
@@ -216,13 +223,9 @@
       const c = normalize(campaign.value);
       const t = normalize(term.value);
       const co = normalize(content.value);
-      if (!s || !m) {
-        error.textContent = "Source and Medium are required.";
-        return;
-      }
       const url = new URL(d);
-      url.searchParams.set("utm_source", s);
-      url.searchParams.set("utm_medium", m);
+      if (s) url.searchParams.set("utm_source", s);
+      if (m) url.searchParams.set("utm_medium", m);
       if (c) url.searchParams.set("utm_campaign", c);
       if (t) url.searchParams.set("utm_term", t);
       if (co) url.searchParams.set("utm_content", co);
@@ -286,7 +289,7 @@
   </script>
   <script src="script.js"></script>
 
-  <footer class="siteFooter"><small>Last Updated: 1/27/26</small></footer>
+  <footer class="siteFooter"><small>Last Updated: 4/2/26</small></footer>
 </body>
 
 </html>

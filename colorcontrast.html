@@ -8,12 +8,19 @@
   <link rel="icon" href="toolbox-solid.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="styles.css" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Color Contrast Checker — Marketing Tools" />
+  <meta property="og:image" content="https://annielovelock.github.io/marketing-tools/og/og-contrast.png" />
+  <meta property="og:url" content="https://annielovelock.github.io/marketing-tools/colorcontrast.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://annielovelock.github.io/marketing-tools/og/og-contrast.png" />
 </head>
 <body class="page-contrast">
   <nav class="siteNav">
     <div class="navInner">
-      <a class="navBrand" href="index.html">Marketing Tools</a>
+      <a class="navBrand" href="index.html" aria-label="Home"><i class="fa-solid fa-house"></i></a>
       <button class="navToggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
       <div class="navLinks" id="navLinks">
         <a href="utmlinkgenerator.html">UTM Generator</a>
@@ -87,7 +94,6 @@
     </div>
   </main>
 
-  <script src="script.js"></script>
   <script>
     const textPicker = document.getElementById("textPicker");
     const textHex    = document.getElementById("textHex");
@@ -206,6 +212,7 @@
 
     render();
   </script>
+  <script src="script.js"></script>
   <footer class="siteFooter"><small>Last Updated: 4/2/26</small></footer>
 </body>
 </html>
