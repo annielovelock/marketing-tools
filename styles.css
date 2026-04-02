@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Raleway:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --bg:        #0b0c10;
@@ -18,7 +18,7 @@
   --yellow:    #ffe07a;
   --radius:    12px;
   --radius-lg: 16px;
-  font-family: 'Raleway', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 body {
@@ -86,7 +86,7 @@ body {
   border-radius: var(--radius);
   padding: 6px 12px;
   font-size: 12px;
-  font-family: 'Raleway', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s;
 }
@@ -147,11 +147,12 @@ body {
 /* ─── Typography ──────────────────────────────────────────── */
 
 h1 {
-  font-size: 22px;
-  font-weight: 700;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
   margin: 0 0 12px;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 p {
@@ -215,7 +216,7 @@ select {
   border: 1px solid var(--border);
   background: var(--bg-deep);
   color: var(--text);
-  font-family: 'Raleway', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 14px;
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
@@ -249,7 +250,7 @@ button,
   border: 1px solid var(--border-mid);
   background: var(--bg-card);
   color: var(--text);
-  font-family: 'Raleway', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -699,7 +700,7 @@ canvas {
   padding: 7px 12px;
   border-radius: 999px;
   font-size: 12px;
-  font-family: 'Raleway', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 500;
   cursor: pointer;
   user-select: none;
