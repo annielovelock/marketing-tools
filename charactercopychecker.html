@@ -100,220 +100,152 @@
   </main>
 
   <script>
-    // Edit these to match your preferred formats/placements
-    const LIMITS = {
-      // Google Search
-      google_headline: {
-        label: "Headline",
-        limit: 30,
-        group: "Google Search"
-      },
-      google_description: {
-        label: "Description",
-        limit: 90,
-        group: "Google Search"
-      },
-      // Meta
-      meta_primary: {
-        label: "Primary text",
-        limit: 125,
-        group: "Meta"
-      },
-      meta_headline: {
-        label: "Headline",
-        limit: 40,
-        group: "Meta"
-      },
-      meta_linkdesc: {
-        label: "Link description",
-        limit: 30,
-        group: "Meta"
-      },
-      // LinkedIn
-      li_intro: {
-        label: "Intro text",
-        limit: 150,
-        group: "LinkedIn"
-      },
-      li_headline: {
-        label: "Headline",
-        limit: 70,
-        group: "LinkedIn"
-      },
-      li_desc: {
-        label: "Description",
-        limit: 150,
-        group: "LinkedIn"
-      },
-      // X
-      x_post: {
-        label: "Post text",
-        limit: 280,
-        group: "X"
-      },
-      // Email (common guardrails)
-      email_subject: {
-        label: "Subject line",
-        limit: 60,
-        group: "Email"
-      },
-      email_preheader: {
-        label: "Preheader",
-        limit: 90,
-        group: "Email"
-      },
-      // YouTube
-      yt_title: {
-        label: "Title",
-        limit: 100,
-        group: "YouTube"
-      },
-      yt_description: {
-        label: "Description",
-        limit: 5000,
-        group: "YouTube"
-      },
-      // TikTok
-      tt_caption: {
-        label: "Caption",
-        limit: 2200,
-        group: "TikTok"
-      }
-    };
-    const state = {}; // { key: stringValue }
-    function $(sel, root = document) {
-      return root.querySelector(sel);
-    }
+const LIMITS = {
+  google_headline:   { label: "Headline",         limit: 30,   group: "Google Search", type: "input"    },
+  google_description:{ label: "Description",       limit: 90,   group: "Google Search", type: "textarea" },
+  meta_primary:      { label: "Primary text",      limit: 125,  group: "Meta",          type: "textarea" },
+  meta_headline:     { label: "Headline",          limit: 40,   group: "Meta",          type: "input"    },
+  meta_linkdesc:     { label: "Link description",  limit: 30,   group: "Meta",          type: "input"    },
+  li_intro:          { label: "Intro text",        limit: 150,  group: "LinkedIn",      type: "textarea" },
+  li_headline:       { label: "Headline",          limit: 70,   group: "LinkedIn",      type: "input"    },
+  li_desc:           { label: "Description",       limit: 150,  group: "LinkedIn",      type: "textarea" },
+  x_post:            { label: "Post text",         limit: 280,  group: "X",             type: "textarea" },
+  email_subject:     { label: "Subject line",      limit: 60,   group: "Email",         type: "input"    },
+  email_preheader:   { label: "Preheader",         limit: 90,   group: "Email",         type: "input"    },
+  yt_title:          { label: "Title",             limit: 100,  group: "YouTube",       type: "input"    },
+  yt_description:    { label: "Description",       limit: 5000, group: "YouTube",       type: "textarea" },
+  tt_caption:        { label: "Caption",           limit: 2200, group: "TikTok",        type: "textarea" }
+};
 
-    function $all(sel, root = document) {
-      return Array.from(root.querySelectorAll(sel));
-    }
+const PLATFORM_ICONS = {
+  "Google Search": `<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1H12v2.8h5.35c-.8 2.3-3 3.9-5.35 3.9a6 6 0 1 1 0-12c1.6 0 3 .6 4.1 1.6l2-2A8.7 8.7 0 1 0 12 20.7c4.9 0 8.2-3.4 8.2-8.2 0-.6-.05-1-.15-1.4z" /></svg>`,
+  "Meta":          `<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.4 2 11.8c0 3.1 1.5 5.8 3.8 7.6V22l3.3-1.8c.9.2 1.9.4 2.9.4 5.5 0 10-4.4 10-8.8S17.5 2 12 2z" /></svg>`,
+  "LinkedIn":      `<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1s2.48 1.1 2.48 2.5zM.5 8.5h4v14h-4v-14zM8.5 8.5h3.8v1.9h.1c.5-.9 1.8-1.9 3.7-1.9 4 0 4.8 2.6 4.8 6v8h-4v-7.1c0-1.7 0-3.8-2.3-3.8s-2.6 1.8-2.6 3.7v7.2h-4v-14z" /></svg>`,
+  "X":             `<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 2H21l-6.6 7.6L22 22h-6.2l-4.9-6.4L5.5 22H2.8l7.1-8.1L2 2h6.3l4.4 5.8L18.3 2z" /></svg>`,
+  "Email":         `<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M2 4h20v16H2V4zm10 7L4 6v12h16V6l-8 5z" /></svg>`,
+  "YouTube":       `<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5s-.2-1.7-.8-2.5c-.7-.9-1.6-.9-2-.9C17.4 4 12 4 12 4s-5.4 0-8.2.1c-.4 0-1.3 0-2 .9C1.2 5.8 1 7.5 1 7.5S.8 9.5.8 11.4v1.2C.8 14.5 1 16.5 1 16.5s.2 1.7.8 2.5c.7.9 1.7.9 2.1 1C6.6 20 12 20 12 20s5.4 0 8.2-.1c.4 0 1.3 0 2-.9.6-.8.8-2.5.8-2.5s.2-2 .2-3.9v-1.2C23.2 9.5 23 7.5 23 7.5zM9.8 15.3V8.7l6.4 3.3-6.4 3.3z" /></svg>`,
+  "TikTok":        `<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 1c.6 2.8 2.3 4.5 5 5v3.2c-1.9 0-3.6-.6-5-1.6v6.9c0 4-3.3 7.5-7.5 7.5S1.5 18.6 1.5 14.6c0-3.7 2.9-6.8 6.7-7.4v3.5c-.9.3-1.5 1.1-1.5 2 0 1.2 1 2.2 2.3 2.2s2.5-1 2.5-2.6V1h4.1z" /></svg>`
+};
 
-    function countChars(str) {
-      return (str || "").length;
-    }
+const state = {};
 
-    function statusBadge(count, limit) {
-      const over = count > limit;
-      const cls = over ? "badge over" : "badge ok";
-      const txt = over ? `Over by ${count - limit}` : "OK";
-      return {
-        cls,
-        txt
-      };
-    }
+function $(sel, root = document) {
+  return root.querySelector(sel);
+}
 
-    function trimToLimit(value, limit) {
-      const v = value || "";
-      if (v.length <= limit) return v;
-      return v.slice(0, limit);
-    }
-    async function copyText(text) {
-      try {
-        await navigator.clipboard.writeText(text);
-        return true;
-      } catch {
-        return false;
-      }
-    }
+function $all(sel, root = document) {
+  return Array.from(root.querySelectorAll(sel));
+}
 
-    function renderField(container, key, type) {
-      const conf = LIMITS[key];
-      const current = state[key] || "";
-      container.innerHTML = `
-        <div class="row">
-          <label>${conf.label}</label>
-          <div class="meta">
-            <span class="badge mono" data-count>0 / ${conf.limit}</span>
-            <span class="badge" data-status>OK</span>
-            <div class="actions">
-              <button class="miniBtn" type="button" data-copy>Copy</button>
-              <button class="miniBtn" type="button" data-trim>Trim</button>
-            </div>
-          </div>
-        </div>
-        ${type === "input"
-          ? `<input type="text" data-input placeholder="Type or paste copy…" />`
-          : `<textarea data-input placeholder="Type or paste copy…"></textarea>`
-        }
-      `;
-      const input = $('[data-input]', container);
-      const countEl = $('[data-count]', container);
-      const statusEl = $('[data-status]', container);
-      input.value = current;
+function countChars(str) {
+  return (str || "").length;
+}
 
-      function update() {
-        const v = input.value || "";
-        state[key] = v;
-        const count = countChars(v);
-        countEl.textContent = `${count} / ${conf.limit}`;
-        const s = statusBadge(count, conf.limit);
-        statusEl.className = s.cls;
-        statusEl.textContent = s.txt;
-      }
-      input.addEventListener("input", update);
-      $('[data-copy]', container).addEventListener("click", async () => {
-        const ok = await copyText(input.value || "");
-        if (!ok) return;
-        const btn = $('[data-copy]', container);
-        const prev = btn.textContent;
-        btn.textContent = "Copied";
-        setTimeout(() => (btn.textContent = prev), 900);
-      });
-      $('[data-trim]', container).addEventListener("click", () => {
-        input.value = trimToLimit(input.value || "", conf.limit);
-        update();
-      });
-      update();
-    }
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
-    function renderAll() {
-      $all(".field").forEach(node => {
-        const key = node.getAttribute("data-key");
-        const type = node.getAttribute("data-type");
-        renderField(node, key, type);
-      });
+function renderField(container, key, type) {
+  const conf = LIMITS[key];
+  const current = state[key] || "";
+  container.innerHTML = `
+    <div class="row">
+      <label>${conf.label}</label>
+      <span class="charcopy-count" data-count>0 / ${conf.limit}</span>
+    </div>
+    ${type === "input"
+      ? `<input type="text" data-input placeholder="Type or paste copy…" />`
+      : `<textarea data-input placeholder="Type or paste copy…"></textarea>`
     }
+    <div class="actions">
+      <button class="miniBtn" type="button" data-copy>Copy</button>
+    </div>
+  `;
+  const input = container.querySelector('[data-input]');
+  const countEl = container.querySelector('[data-count]');
+  input.value = current;
 
-    function buildCopyAllTextWithHeaders() {
-      // Preserve the visible card order
-      const cards = $all(".card");
-      const lines = [];
-      cards.forEach(card => {
-        const group = card.getAttribute("data-group");
-        const keys = Object.keys(LIMITS).filter(k => LIMITS[k].group === group);
-        const filled = keys
-          .map(k => ({
-            k,
-            v: (state[k] || "").trim()
-          }))
-          .filter(x => x.v.length);
-        if (!filled.length) return;
-        lines.push(`${group}`);
-        lines.push("-".repeat(group.length));
-        filled.forEach(({
-          k,
-          v
-        }) => {
-          lines.push(`${LIMITS[k].label}: ${v}`);
-        });
-        lines.push(""); // blank line between groups
-      });
-      return lines.join("\n").trim();
-    }
-    $("#clearAllBtn").addEventListener("click", () => {
-      for (const key of Object.keys(LIMITS)) state[key] = "";
-      renderAll();
+  function update() {
+    const v = input.value || "";
+    state[key] = v;
+    const count = countChars(v);
+    countEl.textContent = `${count} / ${conf.limit}`;
+    countEl.style.color = count > conf.limit ? 'var(--red)' : 'var(--accent)';
+  }
+  input.addEventListener("input", update);
+  container.querySelector('[data-copy]').addEventListener("click", async () => {
+    const ok = await copyText(input.value || "");
+    if (!ok) return;
+    const btn = container.querySelector('[data-copy]');
+    const prev = btn.textContent;
+    btn.textContent = "Copied";
+    setTimeout(() => (btn.textContent = prev), 900);
+  });
+  update();
+}
+
+let activePlatform = "Google Search";
+const panel = document.getElementById("charcopyPanel");
+
+function renderPlatform(group) {
+  activePlatform = group;
+  const keys = Object.keys(LIMITS).filter(k => LIMITS[k].group === group);
+  panel.innerHTML = `<h2>${PLATFORM_ICONS[group] || ""}${group}</h2>`;
+  keys.forEach(key => {
+    const div = document.createElement("div");
+    div.className = "field";
+    panel.appendChild(div);
+    renderField(div, key, LIMITS[key].type);
+  });
+}
+
+$all(".charcopy-nav-item").forEach(btn => {
+  btn.addEventListener("click", () => {
+    $all(".charcopy-nav-item").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderPlatform(btn.getAttribute("data-group"));
+  });
+});
+
+function buildCopyAllTextWithHeaders() {
+  const groups = [...new Set(Object.values(LIMITS).map(c => c.group))];
+  const lines = [];
+  groups.forEach(group => {
+    const keys = Object.keys(LIMITS).filter(k => LIMITS[k].group === group);
+    const filled = keys
+      .map(k => ({ k, v: (state[k] || "").trim() }))
+      .filter(x => x.v.length);
+    if (!filled.length) return;
+    lines.push(group);
+    lines.push("-".repeat(group.length));
+    filled.forEach(({ k, v }) => {
+      lines.push(`${LIMITS[k].label}: ${v}`);
     });
-    $("#copyAllBtn").addEventListener("click", async () => {
-      const text = buildCopyAllTextWithHeaders();
-      const ok = await copyText(text);
-      const btn = $("#copyAllBtn");
-      const prev = btn.textContent;
-      btn.textContent = ok ? "Copied" : "Copy failed";
-      setTimeout(() => (btn.textContent = prev), 1000);
-    });
-    renderAll();
+    lines.push("");
+  });
+  return lines.join("\n").trim();
+}
+
+$("#clearAllBtn").addEventListener("click", () => {
+  for (const key of Object.keys(LIMITS)) state[key] = "";
+  renderPlatform(activePlatform);
+});
+
+$("#copyAllBtn").addEventListener("click", async () => {
+  const text = buildCopyAllTextWithHeaders();
+  const ok = await copyText(text);
+  const btn = $("#copyAllBtn");
+  const prev = btn.textContent;
+  btn.textContent = ok ? "Copied" : "Copy failed";
+  setTimeout(() => (btn.textContent = prev), 1000);
+});
+
+renderPlatform("Google Search");
   </script>
   <script src="script.js"></script>
   <footer class="siteFooter"><small>Last Updated: 4/2/26</small></footer>
