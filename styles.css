@@ -471,6 +471,13 @@ canvas {
   max-width: 250px;
 }
 
+.toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 16px 0 20px;
+}
+
 /* ─── Character copy checker ──────────────────────────────── */
 
 .charcopy-layout {
