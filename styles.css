@@ -139,7 +139,7 @@ body {
 .page-qr .wrap      { max-width: 720px; }
 .page-aptitles .wrap { max-width: 960px; }
 .page-symbols .wrap { max-width: 980px; }
-.page-charcopy .wrap { max-width: 1100px; }
+.page-charcopy .wrap { max-width: 820px; }
 .page-serp .wrap    { max-width: 1100px; }
 .page-home .wrap    { max-width: 1000px; }
 .page-counter .wrap { max-width: 900px; }
@@ -236,8 +236,10 @@ select:focus {
 }
 
 .page-aptitles textarea { min-height: 120px; resize: vertical; }
-.page-charcopy textarea { min-height: 86px;  resize: vertical; }
-.page-charcopy input    { height: 40px; }
+.page-charcopy textarea { min-height: 68px;  resize: vertical; }
+.page-charcopy input,
+.page-charcopy textarea { padding: 8px 12px; }
+.page-charcopy input    { height: 36px; }
 .page-serp textarea     { min-height: 92px;  resize: vertical; }
 .page-counter textarea  { min-height: 180px; resize: vertical; }
 
@@ -487,11 +489,11 @@ canvas {
 }
 
 .charcopy-sidebar {
-  width: 148px;
+  width: 140px;
   flex-shrink: 0;
   position: sticky;
   top: 20px;
-  padding-right: 20px;
+  padding-right: 16px;
 }
 
 .charcopy-sidebar-label {
@@ -503,18 +505,6 @@ canvas {
   margin-bottom: 10px;
 }
 
-.charcopy-sidebar .toolbar {
-  flex-direction: column;
-  gap: 5px;
-  margin: 0 0 14px;
-}
-
-.charcopy-sidebar .toolbar button {
-  width: 100%;
-  text-align: left;
-  font-size: 12px;
-  padding: 6px 10px;
-}
 
 .charcopy-nav {
   display: flex;
@@ -557,6 +547,10 @@ canvas {
 .charcopy-panel {
   flex: 1;
   min-width: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
 }
 
 .charcopy-panel h2 {
@@ -569,14 +563,14 @@ canvas {
   gap: 8px;
 }
 
-.page-charcopy .field { margin-bottom: 20px; }
+.page-charcopy .field { margin-bottom: 14px; }
 
 .page-charcopy .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .page-charcopy .row label {
@@ -591,10 +585,16 @@ canvas {
   flex-shrink: 0;
 }
 
-.page-charcopy .actions {
+.charcopy-input-row {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 5px;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.charcopy-input-row input,
+.charcopy-input-row textarea {
+  flex: 1;
+  min-width: 0;
 }
 
 @media (max-width: 1000px) {

@@ -39,14 +39,11 @@
   <main class="wrap">
     <h1>Character-Safe Copy Checker</h1>
     <p>Paste copy, see live counts, and trim to common platform limits.</p>
+    <div class="note">Limits vary by placement and device. Treat these as guardrails.</div>
 
     <div class="charcopy-layout">
       <aside class="charcopy-sidebar">
         <div class="charcopy-sidebar-label">Platforms</div>
-        <div class="toolbar">
-          <button id="clearAllBtn">Clear all</button>
-          <button id="copyAllBtn">Copy all</button>
-        </div>
         <nav class="charcopy-nav">
           <button class="charcopy-nav-item active" data-group="Google Search">
             <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
@@ -93,9 +90,6 @@
         </nav>
       </aside>
       <div class="charcopy-panel" id="charcopyPanel"></div>
-    </div>
-    <div class="note">
-      Limits vary by placement and device. Treat these as guardrails.
     </div>
   </main>
 
@@ -158,11 +152,11 @@ function renderField(container, key, type) {
       <label>${conf.label}</label>
       <span class="charcopy-count" data-count>0 / ${conf.limit}</span>
     </div>
-    ${type === "input"
-      ? `<input type="text" data-input placeholder="Type or paste copy…" />`
-      : `<textarea data-input placeholder="Type or paste copy…"></textarea>`
-    }
-    <div class="actions">
+    <div class="charcopy-input-row">
+      ${type === "input"
+        ? `<input type="text" data-input placeholder="Type or paste copy…" />`
+        : `<textarea data-input placeholder="Type or paste copy…"></textarea>`
+      }
       <button class="miniBtn" type="button" data-copy>Copy</button>
     </div>
   `;
@@ -210,39 +204,6 @@ $all(".charcopy-nav-item").forEach(btn => {
     btn.classList.add("active");
     renderPlatform(btn.getAttribute("data-group"));
   });
-});
-
-function buildCopyAllTextWithHeaders() {
-  const groups = [...new Set(Object.values(LIMITS).map(c => c.group))];
-  const lines = [];
-  groups.forEach(group => {
-    const keys = Object.keys(LIMITS).filter(k => LIMITS[k].group === group);
-    const filled = keys
-      .map(k => ({ k, v: (state[k] || "").trim() }))
-      .filter(x => x.v.length);
-    if (!filled.length) return;
-    lines.push(group);
-    lines.push("-".repeat(group.length));
-    filled.forEach(({ k, v }) => {
-      lines.push(`${LIMITS[k].label}: ${v}`);
-    });
-    lines.push("");
-  });
-  return lines.join("\n").trim();
-}
-
-$("#clearAllBtn").addEventListener("click", () => {
-  for (const key of Object.keys(LIMITS)) state[key] = "";
-  renderPlatform(activePlatform);
-});
-
-$("#copyAllBtn").addEventListener("click", async () => {
-  const text = buildCopyAllTextWithHeaders();
-  const ok = await copyText(text);
-  const btn = $("#copyAllBtn");
-  const prev = btn.textContent;
-  btn.textContent = ok ? "Copied" : "Copy failed";
-  setTimeout(() => (btn.textContent = prev), 1000);
 });
 
 renderPlatform("Google Search");
