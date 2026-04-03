@@ -418,12 +418,12 @@ button:active:not(:disabled),
 
 .out {
   margin-top: 16px;
-  padding: 14px;
+  padding: 11px 14px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--bg-deep);
+  font-size: 14px;
   word-break: break-all;
-  min-height: 44px;
 }
 
 .error {
