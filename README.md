@@ -8,13 +8,14 @@ A free, open-source collection of browser-based utilities for digital marketers.
 
 | Tool | Description |
 |------|-------------|
-| **UTM Link Generator + QR** | Build campaign tracking URLs with automatic normalization and downloadable QR codes |
+| **UTM Link Generator** | Build campaign tracking URLs with automatic normalization |
 | **QR Code Generator** | Convert any URL or text into a high-res PNG QR code |
 | **Character-Safe Copy Checker** | Real-time character counts against platform limits (Google meta titles/descriptions, LinkedIn, X, and more) |
 | **Word + Character Counter** | Quick word and character counts for any text |
 | **AP-Style Title Capitalization** | Auto-apply Associated Press headline capitalization rules |
 | **SERP Preview** | See how your page title and meta description will render in Google search results |
 | **Symbol Library** | Searchable collection of commonly used marketing symbols and special characters |
+| **Color Contrast Checker** | Check WCAG contrast ratios for any text and background color pair |
 
 ## Getting Started
 

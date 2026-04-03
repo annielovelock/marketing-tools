@@ -4,15 +4,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UTM Link Generator + QR</title>
-  <meta name="description" content="Generate UTM tracking links with automatic normalization and a downloadable QR code. Free, browser-based, no sign-up." />
+  <title>UTM Link Generator</title>
+  <meta name="description" content="Generate UTM tracking links with automatic normalization. Free, browser-based, no sign-up." />
   <link rel="icon" href="toolbox-solid.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="styles.css" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="UTM Link Generator + QR — Marketing Tools" />
+  <meta property="og:title" content="UTM Link Generator — Marketing Tools" />
   <meta property="og:image" content="https://annielovelock.github.io/marketing-tools/og/og-utm.png" />
   <meta property="og:url" content="https://annielovelock.github.io/marketing-tools/utmlinkgenerator.html" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -38,7 +38,7 @@
   </nav>
   <main class="wrap">
     <h1>UTM Link Generator</h1>
-    <p>Build clean tracking links with normalized UTMs and a downloadable QR code.</p>
+    <p>Build clean tracking links with normalized UTMs.</p>
 
     <div class="card">
       <label>
@@ -107,20 +107,8 @@
       <div class="out" id="output"></div>
       <div class="error" id="error"></div>
 
-      <div class="qrWrap" id="qrWrap">
-        <div class="qrHeader">
-          <div class="qrTitle">QR code for your UTM link</div>
-          <button id="downloadQrBtn" disabled>Download QR (PNG)</button>
-        </div>
-        <div class="qrCanvasWrap">
-          <canvas id="qrCanvas" width="1024" height="1024" aria-label="QR code"></canvas>
-        </div>
-      </div>
     </div>
   </main>
-
-  <!-- QR library -->
-  <script src="https://unpkg.com/qrious@4.0.2/dist/qrious.min.js"></script>
 
   <script>
     const $ = (id) => document.getElementById(id);
@@ -135,15 +123,6 @@
     const error = $("error");
     const copyBtn = $("copyBtn");
     const clearBtn = $("clearBtn");
-    const qrWrap = $("qrWrap");
-    const qrCanvas = $("qrCanvas");
-    const downloadQrBtn = $("downloadQrBtn");
-    // QR rendered at full resolution for download
-    const qr = new QRious({
-      element: qrCanvas,
-      size: 1024,
-      value: ""
-    });
 
     function normalize(v) {
       return (v || "")
@@ -171,51 +150,21 @@
       }
     }
 
-    function safeFilenamePart(v) {
-      const n = normalize(v);
-      return n ? n.slice(0, 40) : "";
-    }
-
-    function buildQrFilename() {
-      const s = safeFilenamePart(source.value) || "source";
-      const m = safeFilenamePart(getMedium()) || "medium";
-      const c = safeFilenamePart(campaign.value);
-      const now = new Date();
-      const dateStamp = [
-        now.getFullYear(),
-        String(now.getMonth() + 1).padStart(2, "0"),
-        String(now.getDate()).padStart(2, "0")
-      ].join("");
-      const parts = ["qr", dateStamp, s, m];
-      if (c) parts.push(c);
-      return parts.join("_") + ".png";
-    }
-
-    function setQr(value) {
-      if (!value) {
-        qr.set({
-          value: ""
-        });
-        qrWrap.style.display = "none";
-        downloadQrBtn.disabled = true;
-        return;
-      }
-      qr.set({
-        value
-      });
-      qrWrap.style.display = "block";
-      downloadQrBtn.disabled = false;
+    function ensureProtocol(v) {
+      v = v.trim();
+      if (!v) return v;
+      if (!/^https?:\/\//i.test(v)) v = "https://" + v;
+      return v;
     }
 
     function build() {
       error.textContent = "";
       output.textContent = "";
       copyBtn.disabled = true;
-      setQr("");
-      const d = dest.value.trim();
+      const d = ensureProtocol(dest.value);
       if (!d) return;
       if (!validUrl(d)) {
-        error.textContent = "Invalid URL. Include https://";
+        error.textContent = "Invalid URL.";
         return;
       }
       const s = normalize(source.value);
@@ -232,7 +181,6 @@
       const finalUrl = url.toString();
       output.textContent = finalUrl;
       copyBtn.disabled = false;
-      setQr(finalUrl);
     }
     // Rebuild on input
     ["input", "change"].forEach(evt => {
@@ -260,15 +208,6 @@
         error.textContent = "Copy failed. Select the link and copy manually.";
       }
     });
-    downloadQrBtn.addEventListener("click", () => {
-      if (!output.textContent) return;
-      const a = document.createElement("a");
-      a.download = buildQrFilename();
-      a.href = qrCanvas.toDataURL("image/png");
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    });
     clearBtn.addEventListener("click", () => {
       dest.value = "";
       source.value = "";
@@ -282,7 +221,6 @@
       error.textContent = "";
       copyBtn.disabled = true;
       copyBtn.textContent = "Copy link";
-      setQr("");
       dest.focus();
     });
     build();
