@@ -61,8 +61,8 @@
     }
     .paletteHeader {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 12px;
       margin-bottom: 12px;
     }
     .paletteHeader h2 {
@@ -117,6 +117,25 @@
     .swatch.base .swatchLabel {
       color: var(--text);
     }
+    .copyToast {
+      position: fixed;
+      left: 50%;
+      bottom: 32px;
+      transform: translateX(-50%);
+      background: var(--blue);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      z-index: 50;
+    }
+    .copyToast.show {
+      opacity: 1;
+    }
   </style>
 </head>
 <body class="page-palette">
@@ -139,7 +158,7 @@
   </nav>
   <main class="wrap">
     <h1>Palette Generator</h1>
-    <p>Generate color harmonies from any base color.</p>
+    <p>Generate color harmonies from any base color. Click a swatch to copy its code.</p>
 
     <div class="inputRow">
       <input id="basePicker" type="color" value="#4b73ff" aria-label="Base color picker" />
@@ -152,25 +171,9 @@
     </div>
 
     <div id="palettes">
-      <div class="paletteSection" data-palette="monochromatic">
-        <div class="paletteHeader">
-          <h2>Monochromatic</h2>
-          <button class="paletteCopyAll" type="button">Copy all</button>
-        </div>
-        <div class="paletteRow"></div>
-      </div>
-
       <div class="paletteSection" data-palette="complementary">
         <div class="paletteHeader">
           <h2>Complementary</h2>
-          <button class="paletteCopyAll" type="button">Copy all</button>
-        </div>
-        <div class="paletteRow"></div>
-      </div>
-
-      <div class="paletteSection" data-palette="analogous">
-        <div class="paletteHeader">
-          <h2>Analogous</h2>
           <button class="paletteCopyAll" type="button">Copy all</button>
         </div>
         <div class="paletteRow"></div>
@@ -199,10 +202,36 @@
         </div>
         <div class="paletteRow"></div>
       </div>
+
+      <div class="paletteSection" data-palette="monochromatic">
+        <div class="paletteHeader">
+          <h2>Monochromatic</h2>
+          <button class="paletteCopyAll" type="button">Copy all</button>
+        </div>
+        <div class="paletteRow"></div>
+      </div>
+
+      <div class="paletteSection" data-palette="analogous">
+        <div class="paletteHeader">
+          <h2>Analogous</h2>
+          <button class="paletteCopyAll" type="button">Copy all</button>
+        </div>
+        <div class="paletteRow"></div>
+      </div>
     </div>
   </main>
 
+  <div class="copyToast" id="copyToast">Copied!</div>
   <script>
+    // --- Toast ---
+    const toast = document.getElementById("copyToast");
+    let toastTimer;
+    function showToast() {
+      clearTimeout(toastTimer);
+      toast.classList.add("show");
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1200);
+    }
+
     // --- Color conversions ---
 
     function parseHex(raw) {
@@ -361,12 +390,7 @@
       div.appendChild(label);
       div.addEventListener("click", () => {
         const val = formatColor(color.r, color.g, color.b, activeFormat);
-        navigator.clipboard.writeText(val).then(() => {
-          label.textContent = "Copied!";
-          setTimeout(() => {
-            label.textContent = formatColor(color.r, color.g, color.b, activeFormat);
-          }, 1200);
-        });
+        navigator.clipboard.writeText(val).then(() => showToast());
       });
       return div;
     }
@@ -412,11 +436,8 @@
       btn.addEventListener("click", () => {
         const section = btn.closest(".paletteSection");
         const labels = section.querySelectorAll(".swatchLabel");
-        const values = Array.from(labels).map(l => l.textContent).filter(t => t !== "Copied!");
-        navigator.clipboard.writeText(values.join(", ")).then(() => {
-          btn.textContent = "Copied!";
-          setTimeout(() => { btn.textContent = "Copy all"; }, 1200);
-        });
+        const values = Array.from(labels).map(l => l.textContent);
+        navigator.clipboard.writeText(values.join(", ")).then(() => showToast());
       });
     });
 
