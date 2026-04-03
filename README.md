@@ -16,6 +16,7 @@ A free, open-source collection of browser-based utilities for digital marketers.
 | **SERP Preview** | See how your page title and meta description will render in Google search results |
 | **Symbol Library** | Searchable collection of commonly used marketing symbols and special characters |
 | **Color Contrast Checker** | Check WCAG contrast ratios for any text and background color pair |
+| **Palette Generator** | Generate complementary, analogous, triadic, and other color harmonies from any base hex |
 
 ## Getting Started
 
