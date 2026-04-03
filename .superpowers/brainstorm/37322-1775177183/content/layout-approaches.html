@@ -1,0 +1,76 @@
+<h2>Palette Generator — Layout Approach</h2>
+<p class="subtitle">How should the base input + palette sections be arranged?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Stacked Sections</h3>
+      <p>Base color input at top, then each palette type as a full-width section below — each with a heading and a horizontal row of swatches. Simple, scrollable, matches the existing tool page patterns (single column <code>.card</code> layout).</p>
+      <div style="margin-top:12px; padding:16px; background:rgba(255,255,255,0.05); border-radius:8px; font-size:13px; color:#b8b8c0;">
+        <div style="background:rgba(255,255,255,0.08); padding:10px 14px; border-radius:6px; margin-bottom:12px; text-align:center;">🎨 Base color: <span style="color:#8fb0ff">#4b73ff</span> &nbsp; [picker] [hex input] [format toggle]</div>
+        <div style="margin-bottom:10px; font-weight:600; color:#e8e8ea;">Complementary</div>
+        <div style="display:flex; gap:8px; margin-bottom:16px;">
+          <div style="width:60px;height:40px;background:#4b73ff;border-radius:4px;"></div>
+          <div style="width:60px;height:40px;background:#ff9b4b;border-radius:4px;"></div>
+        </div>
+        <div style="margin-bottom:10px; font-weight:600; color:#e8e8ea;">Analogous</div>
+        <div style="display:flex; gap:8px; margin-bottom:16px;">
+          <div style="width:60px;height:40px;background:#4b4bff;border-radius:4px;"></div>
+          <div style="width:60px;height:40px;background:#4b73ff;border-radius:4px;"></div>
+          <div style="width:60px;height:40px;background:#4bbfff;border-radius:4px;"></div>
+        </div>
+        <div style="margin-bottom:10px; font-weight:600; color:#e8e8ea;">Triadic</div>
+        <div style="display:flex; gap:8px;">
+          <div style="width:60px;height:40px;background:#4b73ff;border-radius:4px;"></div>
+          <div style="width:60px;height:40px;background:#ff4b73;border-radius:4px;"></div>
+          <div style="width:60px;height:40px;background:#73ff4b;border-radius:4px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Grid of Cards</h3>
+      <p>Base color input at top, then a 2-column grid where each palette type is its own card with swatches inside. More compact, less scrolling, similar to the Contrast Checker's two-column <code>.grid</code> layout.</p>
+      <div style="margin-top:12px; padding:16px; background:rgba(255,255,255,0.05); border-radius:8px; font-size:13px; color:#b8b8c0;">
+        <div style="background:rgba(255,255,255,0.08); padding:10px 14px; border-radius:6px; margin-bottom:12px; text-align:center;">🎨 Base color: <span style="color:#8fb0ff">#4b73ff</span> &nbsp; [picker] [hex input] [format toggle]</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div style="background:rgba(255,255,255,0.06); padding:12px; border-radius:6px;">
+            <div style="font-weight:600; color:#e8e8ea; margin-bottom:8px;">Complementary</div>
+            <div style="display:flex; gap:6px;">
+              <div style="width:40px;height:30px;background:#4b73ff;border-radius:4px;"></div>
+              <div style="width:40px;height:30px;background:#ff9b4b;border-radius:4px;"></div>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.06); padding:12px; border-radius:6px;">
+            <div style="font-weight:600; color:#e8e8ea; margin-bottom:8px;">Analogous</div>
+            <div style="display:flex; gap:6px;">
+              <div style="width:40px;height:30px;background:#4b4bff;border-radius:4px;"></div>
+              <div style="width:40px;height:30px;background:#4b73ff;border-radius:4px;"></div>
+              <div style="width:40px;height:30px;background:#4bbfff;border-radius:4px;"></div>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.06); padding:12px; border-radius:6px;">
+            <div style="font-weight:600; color:#e8e8ea; margin-bottom:8px;">Triadic</div>
+            <div style="display:flex; gap:6px;">
+              <div style="width:40px;height:30px;background:#4b73ff;border-radius:4px;"></div>
+              <div style="width:40px;height:30px;background:#ff4b73;border-radius:4px;"></div>
+              <div style="width:40px;height:30px;background:#73ff4b;border-radius:4px;"></div>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.06); padding:12px; border-radius:6px;">
+            <div style="font-weight:600; color:#e8e8ea; margin-bottom:8px;">Split-Comp.</div>
+            <div style="display:flex; gap:6px;">
+              <div style="width:40px;height:30px;background:#4b73ff;border-radius:4px;"></div>
+              <div style="width:40px;height:30px;background:#ffcc4b;border-radius:4px;"></div>
+              <div style="width:40px;height:30px;background:#ff4b4b;border-radius:4px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

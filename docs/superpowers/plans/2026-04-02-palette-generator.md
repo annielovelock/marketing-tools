@@ -1,0 +1,658 @@
+# Palette Generator Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Add a Palette Generator tool that creates six color harmony palettes from any base hex color, with copyable swatch values in hex, RGB, or HSL format.
+
+**Architecture:** Single HTML page (`palettegenerator.html`) with inline `<style>` and `<script>`. All color math (hex/RGB/HSL conversions and palette generation) is vanilla JS. No external dependencies. Follows the existing pattern of self-contained tool pages with shared `styles.css` and `script.js`.
+
+**Tech Stack:** Vanilla HTML, CSS, JavaScript. No libraries.
+
+**Spec:** `docs/superpowers/specs/2026-04-02-palette-generator-design.md`
+
+---
+
+### Task 1: Create the page scaffold with HTML structure
+
+**Files:**
+- Create: `palettegenerator.html`
+
+This task creates the full HTML file with all structural elements but no JS logic yet. The page will render but swatches will be empty until Task 2 wires up the script.
+
+- [ ] **Step 1: Create `palettegenerator.html` with full HTML**
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Palette Generator</title>
+  <meta name="description" content="Generate complementary, analogous, triadic, and other color harmonies from any base hex. Free browser-based tool, no sign-up." />
+  <link rel="icon" href="toolbox-solid.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="styles.css" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Palette Generator — Marketing Tools" />
+  <meta property="og:image" content="https://annielovelock.github.io/marketing-tools/og/og-palette.png" />
+  <meta property="og:url" content="https://annielovelock.github.io/marketing-tools/palettegenerator.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://annielovelock.github.io/marketing-tools/og/og-palette.png" />
+  <style>
+    .inputRow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .inputRow input[type="color"] {
+      width: 44px;
+      height: 44px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 2px;
+      background: transparent;
+      cursor: pointer;
+    }
+    .inputRow input[type="text"] {
+      width: 100px;
+      font-family: monospace;
+    }
+    .formatToggle {
+      display: flex;
+      gap: 4px;
+    }
+    .formatToggle button {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-2);
+      transition: background 0.15s, color 0.15s;
+    }
+    .formatToggle button.active {
+      background: var(--blue);
+      color: #fff;
+    }
+    .paletteSection {
+      margin-bottom: 28px;
+    }
+    .paletteHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .paletteHeader h2 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .paletteCopyAll {
+      font-size: 11px;
+      color: var(--text-3);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .paletteCopyAll:hover {
+      color: var(--text);
+      border-color: var(--border-mid);
+    }
+    .paletteRow {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .swatch {
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .swatch:hover {
+      transform: translateY(-2px);
+    }
+    .swatchColor {
+      width: 72px;
+      height: 56px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .swatch.base .swatchColor {
+      border: 2px solid var(--accent);
+    }
+    .swatchLabel {
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--text-2);
+      margin-top: 6px;
+      min-height: 16px;
+      word-break: break-all;
+    }
+    .swatch.base .swatchLabel {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body class="page-palette">
+  <nav class="siteNav">
+    <div class="navInner">
+      <a class="navBrand" href="index.html" aria-label="Home"><i class="fa-solid fa-house"></i></a>
+      <button class="navToggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <div class="navLinks" id="navLinks">
+        <a href="utmlinkgenerator.html">UTM Generator</a>
+        <a href="qrcodegenerator.html">QR Code</a>
+        <a href="charactercopychecker.html">Copy Checker</a>
+        <a href="wordcharcounter.html">Word Counter</a>
+        <a href="aptitles.html">AP Title Caps</a>
+        <a href="symbollibrary.html">Symbol Library</a>
+        <a href="serppreview.html">SERP Preview</a>
+        <a href="colorcontrast.html">Contrast Checker</a>
+        <a href="palettegenerator.html" aria-current="page">Palette Generator</a>
+      </div>
+    </div>
+  </nav>
+  <main class="wrap">
+    <h1>Palette Generator</h1>
+    <p>Generate color harmonies from any base color.</p>
+
+    <div class="inputRow">
+      <input id="basePicker" type="color" value="#4b73ff" aria-label="Base color picker" />
+      <input id="baseHex" type="text" value="#4b73ff" maxlength="7" spellcheck="false" />
+      <div class="formatToggle">
+        <button class="active" data-format="hex">Hex</button>
+        <button data-format="rgb">RGB</button>
+        <button data-format="hsl">HSL</button>
+      </div>
+    </div>
+
+    <div id="palettes">
+      <div class="paletteSection" data-palette="monochromatic">
+        <div class="paletteHeader">
+          <h2>Monochromatic</h2>
+          <button class="paletteCopyAll" type="button">Copy all</button>
+        </div>
+        <div class="paletteRow"></div>
+      </div>
+
+      <div class="paletteSection" data-palette="complementary">
+        <div class="paletteHeader">
+          <h2>Complementary</h2>
+          <button class="paletteCopyAll" type="button">Copy all</button>
+        </div>
+        <div class="paletteRow"></div>
+      </div>
+
+      <div class="paletteSection" data-palette="analogous">
+        <div class="paletteHeader">
+          <h2>Analogous</h2>
+          <button class="paletteCopyAll" type="button">Copy all</button>
+        </div>
+        <div class="paletteRow"></div>
+      </div>
+
+      <div class="paletteSection" data-palette="triadic">
+        <div class="paletteHeader">
+          <h2>Triadic</h2>
+          <button class="paletteCopyAll" type="button">Copy all</button>
+        </div>
+        <div class="paletteRow"></div>
+      </div>
+
+      <div class="paletteSection" data-palette="split-complementary">
+        <div class="paletteHeader">
+          <h2>Split-Complementary</h2>
+          <button class="paletteCopyAll" type="button">Copy all</button>
+        </div>
+        <div class="paletteRow"></div>
+      </div>
+
+      <div class="paletteSection" data-palette="tetradic">
+        <div class="paletteHeader">
+          <h2>Tetradic</h2>
+          <button class="paletteCopyAll" type="button">Copy all</button>
+        </div>
+        <div class="paletteRow"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Task 2 will add all JS here
+  </script>
+  <script src="script.js"></script>
+  <footer class="siteFooter"><small>Last Updated: 4/2/26</small></footer>
+</body>
+</html>
+```
+
+- [ ] **Step 2: Open in browser and verify the scaffold renders**
+
+Open `palettegenerator.html` in the browser. You should see the nav, the h1 title, the color picker + hex input + format toggle row, and six section headings (Monochromatic through Tetradic) with "Copy all" buttons. The palette rows will be empty — that's expected.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add palettegenerator.html
+git commit -m "feat(palette): add page scaffold with HTML structure and styles"
+```
+
+---
+
+### Task 2: Add color math and palette generation logic
+
+**Files:**
+- Modify: `palettegenerator.html` (replace the placeholder `<script>` block)
+
+This task adds all JS: color conversions, palette generation, swatch rendering, format toggle, click-to-copy, and copy-all.
+
+- [ ] **Step 1: Replace the script block in `palettegenerator.html`**
+
+Replace the `<script>// Task 2 will add all JS here</script>` block with:
+
+```html
+<script>
+  // --- Color conversions ---
+
+  function parseHex(raw) {
+    let h = (raw || "").trim().replace(/^#/, "");
+    if (h.length === 3) {
+      h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+    }
+    if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+    return {
+      r: parseInt(h.slice(0, 2), 16),
+      g: parseInt(h.slice(2, 4), 16),
+      b: parseInt(h.slice(4, 6), 16)
+    };
+  }
+
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+    if (max === min) {
+      h = s = 0;
+    } else {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+        case g: h = ((b - r) / d + 2) / 6; break;
+        case b: h = ((r - g) / d + 4) / 6; break;
+      }
+    }
+    return { h: h * 360, s, l };
+  }
+
+  function hslToRgb(h, s, l) {
+    h = ((h % 360) + 360) % 360;
+    h /= 360;
+    let r, g, b;
+    if (s === 0) {
+      r = g = b = l;
+    } else {
+      const hue2rgb = (p, q, t) => {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1 / 3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1 / 3);
+    }
+    return {
+      r: Math.round(r * 255),
+      g: Math.round(g * 255),
+      b: Math.round(b * 255)
+    };
+  }
+
+  function rgbToHex(r, g, b) {
+    return "#" + [r, g, b].map(c => c.toString(16).padStart(2, "0")).join("");
+  }
+
+  function toPickerHex(val) {
+    const rgb = parseHex(val);
+    if (!rgb) return null;
+    return rgbToHex(rgb.r, rgb.g, rgb.b);
+  }
+
+  // --- Format output ---
+
+  function formatColor(r, g, b, fmt) {
+    if (fmt === "rgb") return `rgb(${r}, ${g}, ${b})`;
+    if (fmt === "hsl") {
+      const { h, s, l } = rgbToHsl(r, g, b);
+      return `hsl(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
+    }
+    return rgbToHex(r, g, b);
+  }
+
+  // --- Palette generation ---
+
+  function generatePalettes(hex) {
+    const rgb = parseHex(hex);
+    if (!rgb) return null;
+    const base = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+    function hslColor(h, s, l) {
+      const c = hslToRgb(h, s, l);
+      return { r: c.r, g: c.g, b: c.b };
+    }
+
+    function rotated(deg) {
+      return hslColor(base.h + deg, base.s, base.l);
+    }
+
+    return {
+      monochromatic: [
+        { ...hslColor(base.h, base.s, 0.15), isBase: false },
+        { ...hslColor(base.h, base.s, 0.30), isBase: false },
+        { ...hslColor(base.h, base.s, 0.50), isBase: base.l >= 0.45 && base.l <= 0.55 },
+        { ...hslColor(base.h, base.s, 0.70), isBase: false },
+        { ...hslColor(base.h, base.s, 0.85), isBase: false }
+      ],
+      complementary: [
+        { r: rgb.r, g: rgb.g, b: rgb.b, isBase: true },
+        { ...rotated(180), isBase: false }
+      ],
+      analogous: [
+        { ...rotated(-60), isBase: false },
+        { ...rotated(-30), isBase: false },
+        { r: rgb.r, g: rgb.g, b: rgb.b, isBase: true },
+        { ...rotated(30), isBase: false },
+        { ...rotated(60), isBase: false }
+      ],
+      triadic: [
+        { r: rgb.r, g: rgb.g, b: rgb.b, isBase: true },
+        { ...rotated(120), isBase: false },
+        { ...rotated(240), isBase: false }
+      ],
+      "split-complementary": [
+        { r: rgb.r, g: rgb.g, b: rgb.b, isBase: true },
+        { ...rotated(150), isBase: false },
+        { ...rotated(210), isBase: false }
+      ],
+      tetradic: [
+        { r: rgb.r, g: rgb.g, b: rgb.b, isBase: true },
+        { ...rotated(60), isBase: false },
+        { ...rotated(180), isBase: false },
+        { ...rotated(240), isBase: false }
+      ]
+    };
+  }
+
+  // --- DOM ---
+
+  const basePicker = document.getElementById("basePicker");
+  const baseHex    = document.getElementById("baseHex");
+  const formatBtns = document.querySelectorAll(".formatToggle button");
+  let activeFormat = "hex";
+
+  function createSwatchEl(color, fmt) {
+    const div = document.createElement("div");
+    div.className = "swatch" + (color.isBase ? " base" : "");
+    const colorDiv = document.createElement("div");
+    colorDiv.className = "swatchColor";
+    colorDiv.style.backgroundColor = rgbToHex(color.r, color.g, color.b);
+    const label = document.createElement("div");
+    label.className = "swatchLabel";
+    label.textContent = formatColor(color.r, color.g, color.b, fmt);
+    div.appendChild(colorDiv);
+    div.appendChild(label);
+    div.addEventListener("click", () => {
+      const val = formatColor(color.r, color.g, color.b, activeFormat);
+      navigator.clipboard.writeText(val).then(() => {
+        label.textContent = "Copied!";
+        setTimeout(() => {
+          label.textContent = formatColor(color.r, color.g, color.b, activeFormat);
+        }, 1200);
+      });
+    });
+    return div;
+  }
+
+  function render() {
+    const hex = baseHex.value;
+    const palettes = generatePalettes(hex);
+    if (!palettes) return;
+
+    document.querySelectorAll(".paletteSection").forEach(section => {
+      const key = section.dataset.palette;
+      const row = section.querySelector(".paletteRow");
+      row.innerHTML = "";
+      palettes[key].forEach(color => {
+        row.appendChild(createSwatchEl(color, activeFormat));
+      });
+    });
+  }
+
+  // Sync picker <-> hex input
+  basePicker.addEventListener("input", () => {
+    baseHex.value = basePicker.value;
+    render();
+  });
+  baseHex.addEventListener("input", () => {
+    const h = toPickerHex(baseHex.value);
+    if (h) basePicker.value = h;
+    render();
+  });
+
+  // Format toggle
+  formatBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      formatBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeFormat = btn.dataset.format;
+      render();
+    });
+  });
+
+  // Copy all buttons
+  document.querySelectorAll(".paletteCopyAll").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const section = btn.closest(".paletteSection");
+      const labels = section.querySelectorAll(".swatchLabel");
+      const values = Array.from(labels).map(l => l.textContent).filter(t => t !== "Copied!");
+      navigator.clipboard.writeText(values.join(", ")).then(() => {
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = "Copy all"; }, 1200);
+      });
+    });
+  });
+
+  // Initial render
+  render();
+</script>
+```
+
+- [ ] **Step 2: Test in browser**
+
+Open `palettegenerator.html`. Verify:
+1. Default color `#4b73ff` shows palettes with colored swatches
+2. Changing the color picker updates all palettes live
+3. Typing a hex (e.g., `ff6600`) into the text input updates the picker and palettes
+4. Shorthand hex works (e.g., `#abc`)
+5. Clicking a swatch copies its value and shows "Copied!" for ~1.2s
+6. Format toggle switches all labels between hex, RGB, HSL
+7. "Copy all" copies comma-separated values for that palette
+8. Base swatch in each palette has a brighter accent border
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add palettegenerator.html
+git commit -m "feat(palette): add color math, palette generation, and swatch interaction"
+```
+
+---
+
+### Task 3: Add monochromatic base indicator
+
+**Files:**
+- Modify: `palettegenerator.html` (JS only — the `monochromatic` array in `generatePalettes`)
+
+The monochromatic palette currently marks `isBase` only when the base lightness is near 50%. Instead, always mark the swatch whose lightness is closest to the base.
+
+- [ ] **Step 1: Update the monochromatic palette generation**
+
+In `palettegenerator.html`, replace the `monochromatic` array inside `generatePalettes`:
+
+```js
+      monochromatic: [
+        { ...hslColor(base.h, base.s, 0.15), isBase: false },
+        { ...hslColor(base.h, base.s, 0.30), isBase: false },
+        { ...hslColor(base.h, base.s, 0.50), isBase: false },
+        { ...hslColor(base.h, base.s, 0.70), isBase: false },
+        { ...hslColor(base.h, base.s, 0.85), isBase: false }
+      ].map((c, i, arr) => {
+        const stops = [0.15, 0.30, 0.50, 0.70, 0.85];
+        const closest = stops.reduce((prev, curr) =>
+          Math.abs(curr - base.l) < Math.abs(prev - base.l) ? curr : prev
+        );
+        return { ...c, isBase: stops[i] === closest };
+      }),
+```
+
+- [ ] **Step 2: Test in browser**
+
+Try a dark base color (e.g., `#1a1a3e`) — the 15% or 30% swatch should get the base border. Try a light one (e.g., `#c4d4ff`) — the 85% swatch should get it.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add palettegenerator.html
+git commit -m "fix(palette): mark closest monochromatic swatch as base"
+```
+
+---
+
+### Task 4: Add nav link to all existing pages
+
+**Files:**
+- Modify: `index.html`
+- Modify: `utmlinkgenerator.html`
+- Modify: `qrcodegenerator.html`
+- Modify: `charactercopychecker.html`
+- Modify: `wordcharcounter.html`
+- Modify: `aptitles.html`
+- Modify: `symbollibrary.html`
+- Modify: `serppreview.html`
+- Modify: `colorcontrast.html`
+
+Every page has the same nav block. Add the Palette Generator link after the Contrast Checker link in each.
+
+- [ ] **Step 1: Add nav link to all 9 existing pages**
+
+In each file, find:
+```html
+        <a href="colorcontrast.html">Contrast Checker</a>
+```
+(or `<a href="colorcontrast.html" aria-current="page">Contrast Checker</a>` in `colorcontrast.html`)
+
+Add immediately after:
+```html
+        <a href="palettegenerator.html">Palette Generator</a>
+```
+
+Files to modify:
+- `index.html`
+- `utmlinkgenerator.html`
+- `qrcodegenerator.html`
+- `charactercopychecker.html`
+- `wordcharcounter.html`
+- `aptitles.html`
+- `symbollibrary.html`
+- `serppreview.html`
+- `colorcontrast.html`
+
+- [ ] **Step 2: Verify nav links**
+
+Open any 2-3 pages and confirm the "Palette Generator" link appears in the nav and navigates to `palettegenerator.html`.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add index.html utmlinkgenerator.html qrcodegenerator.html charactercopychecker.html wordcharcounter.html aptitles.html symbollibrary.html serppreview.html colorcontrast.html
+git commit -m "feat(palette): add nav link to all existing pages"
+```
+
+---
+
+### Task 5: Add homepage card and README entry
+
+**Files:**
+- Modify: `index.html`
+- Modify: `README.md`
+
+- [ ] **Step 1: Add homepage card to `index.html`**
+
+In `index.html`, after the Color Contrast Checker card (the `<a class="homeCard" href="colorcontrast.html">` block ending with `</a>`), add:
+
+```html
+      <a class="homeCard" href="palettegenerator.html">
+        <div class="homeCardIcon"><i class="fa-solid fa-palette"></i></div>
+        <h2 class="homeTitle">Palette Generator</h2>
+        <p class="homeDesc">Generate color harmonies from any base color.</p>
+      </a>
+```
+
+- [ ] **Step 2: Add README entry**
+
+In `README.md`, after the Color Contrast Checker row in the tools table, add:
+
+```markdown
+| **Palette Generator** | Generate complementary, analogous, triadic, and other color harmonies from any base hex |
+```
+
+- [ ] **Step 3: Verify**
+
+Open `index.html` in browser — the Palette Generator card should appear with the palette icon. Open `README.md` and confirm the table row renders correctly.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add index.html README.md
+git commit -m "feat(palette): add homepage card and README entry"
+```
+
+---
+
+### Task 6: Final verification
+
+**Files:** None (read-only verification)
+
+- [ ] **Step 1: Full flow test**
+
+Open `palettegenerator.html` and verify end-to-end:
+1. Page loads with default `#4b73ff` and all 6 palettes rendered
+2. Change color via picker — palettes update live
+3. Type hex in text input (with and without `#`, shorthand `#abc`) — palettes update, picker syncs
+4. Click format toggle buttons — all swatch labels switch between hex, RGB, HSL
+5. Click any swatch — value copies to clipboard, "Copied!" flash appears
+6. Click "Copy all" on any palette — comma-separated values copy to clipboard
+7. Base swatch in each palette has the accent border
+8. Resize browser to mobile width — swatches wrap cleanly
+
+- [ ] **Step 2: Cross-page nav test**
+
+Navigate to 3-4 different tool pages and confirm "Palette Generator" appears in the nav bar and links correctly.
+
+- [ ] **Step 3: Homepage test**
+
+Open `index.html` and confirm the Palette Generator card is present with the palette icon.

@@ -1,0 +1,45 @@
+<h2>Palette Generator — Full Page Mockup v2</h2>
+<p class="subtitle">Base color input narrowed. Compare the two options below.</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Inline Row</h3>
+      <p>Picker, hex input, and format toggle all on one line. No card wrapper — just sits at the top like a toolbar.</p>
+      <div style="margin-top:12px; padding:20px; background:#0b0c10; border-radius:8px;">
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          <div style="width:40px;height:40px;background:#4b73ff;border-radius:8px;border:2px solid #23263a;flex-shrink:0;"></div>
+          <div style="background:#0f1120;border:1px solid #23263a;border-radius:8px;padding:9px 14px;color:#e8e8ea;font-size:14px;font-family:monospace;width:90px;">#4b73ff</div>
+          <div style="display:flex; gap:4px;">
+            <div style="background:#4b73ff;color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;font-weight:600;">Hex</div>
+            <div style="background:rgba(255,255,255,0.06);color:#b8b8c0;padding:5px 10px;border-radius:6px;font-size:11px;">RGB</div>
+            <div style="background:rgba(255,255,255,0.06);color:#b8b8c0;padding:5px 10px;border-radius:6px;font-size:11px;">HSL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Compact Card</h3>
+      <p>Same card style as other tools but constrained to <code>max-width: 360px</code>. Left-aligned.</p>
+      <div style="margin-top:12px; padding:20px; background:#0b0c10; border-radius:8px;">
+        <div style="background:#141621; border:1px solid #23263a; border-radius:12px; padding:16px; max-width:280px;">
+          <label style="font-size:13px; font-weight:500; display:block; margin-bottom:8px; color:#e8e8ea;">Base color</label>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <div style="width:40px;height:40px;background:#4b73ff;border-radius:8px;border:2px solid #23263a;flex-shrink:0;"></div>
+            <div style="background:#0f1120;border:1px solid #23263a;border-radius:8px;padding:9px 14px;color:#e8e8ea;font-size:14px;font-family:monospace;">#4b73ff</div>
+          </div>
+          <div style="display:flex; gap:4px;">
+            <div style="background:#4b73ff;color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;font-weight:600;">Hex</div>
+            <div style="background:rgba(255,255,255,0.06);color:#b8b8c0;padding:5px 10px;border-radius:6px;font-size:11px;">RGB</div>
+            <div style="background:rgba(255,255,255,0.06);color:#b8b8c0;padding:5px 10px;border-radius:6px;font-size:11px;">HSL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

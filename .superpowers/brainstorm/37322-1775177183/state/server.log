@@ -1,0 +1,6 @@
+{"type":"server-started","port":55299,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:55299","screen_dir":"/Users/annielovelock/marketing-tools/.superpowers/brainstorm/37322-1775177183/content","state_dir":"/Users/annielovelock/marketing-tools/.superpowers/brainstorm/37322-1775177183/state"}
+{"type":"screen-added","file":"/Users/annielovelock/marketing-tools/.superpowers/brainstorm/37322-1775177183/content/layout-approaches.html"}
+{"type":"screen-added","file":"/Users/annielovelock/marketing-tools/.superpowers/brainstorm/37322-1775177183/content/full-mockup.html"}
+{"type":"screen-added","file":"/Users/annielovelock/marketing-tools/.superpowers/brainstorm/37322-1775177183/content/full-mockup-v2.html"}
+{"source":"user-event","type":"click","text":"A\n    \n      Inline Row\n      Picker, hex input, and format toggle all on one line. No card wrapper — just sits at the top like a toolbar.\n      \n        \n          \n          #4b73ff\n          \n            Hex\n            RGB\n            HSL","choice":"a","id":null,"timestamp":1775177503595}
+{"type":"screen-added","file":"/Users/annielovelock/marketing-tools/.superpowers/brainstorm/37322-1775177183/content/waiting.html"}

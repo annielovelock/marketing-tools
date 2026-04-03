@@ -1,0 +1,115 @@
+<h2>Layout Approaches</h2>
+<p class="subtitle">Which overall structure feels right for a sleeker Copy Checker?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="font-family: system-ui; padding: 16px; background: #0f1120; border-radius: 8px; min-height: 200px;">
+        <div style="display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap;">
+          <div style="padding: 5px 12px; background: #4b73ff; color: #fff; border-radius: 20px; font-size: 11px; font-weight: 600;">Google</div>
+          <div style="padding: 5px 12px; background: #23263a; color: #8f93a8; border-radius: 20px; font-size: 11px;">Meta</div>
+          <div style="padding: 5px 12px; background: #23263a; color: #8f93a8; border-radius: 20px; font-size: 11px;">LinkedIn</div>
+          <div style="padding: 5px 12px; background: #23263a; color: #8f93a8; border-radius: 20px; font-size: 11px;">X</div>
+          <div style="padding: 5px 12px; background: #23263a; color: #8f93a8; border-radius: 20px; font-size: 11px;">Email</div>
+          <div style="padding: 5px 12px; background: #23263a; color: #8f93a8; border-radius: 20px; font-size: 11px;">+ more</div>
+        </div>
+        <div style="background: #141621; border: 1px solid #23263a; border-radius: 6px; padding: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 11px; color: #b8b8c0; text-transform: uppercase; letter-spacing: .05em;">Headline</span>
+            <span style="font-size: 11px; color: #8fb0ff;">0 / 30</span>
+          </div>
+          <div style="height: 28px; background: #0f1120; border: 1px solid #2a2e47; border-radius: 4px;"></div>
+        </div>
+        <div style="background: #141621; border: 1px solid #23263a; border-radius: 6px; padding: 12px; margin-top: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 11px; color: #b8b8c0; text-transform: uppercase; letter-spacing: .05em;">Description</span>
+            <span style="font-size: 11px; color: #8fb0ff;">0 / 90</span>
+          </div>
+          <div style="height: 44px; background: #0f1120; border: 1px solid #2a2e47; border-radius: 4px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Pill Tabs</h3>
+      <p>Platforms as horizontal pill tabs. Click to switch — only one platform's fields visible at a time. Focused, minimal, hides unused platforms.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="font-family: system-ui; padding: 16px; background: #0f1120; border-radius: 8px; min-height: 200px;">
+        <div style="display: flex; gap: 10px;">
+          <div style="width: 90px; flex-shrink: 0;">
+            <div style="padding: 7px 10px; background: #4b73ff; color: #fff; border-radius: 6px; font-size: 11px; font-weight: 600; margin-bottom: 4px;">Google</div>
+            <div style="padding: 7px 10px; color: #8f93a8; font-size: 11px; margin-bottom: 4px;">Meta</div>
+            <div style="padding: 7px 10px; color: #8f93a8; font-size: 11px; margin-bottom: 4px;">LinkedIn</div>
+            <div style="padding: 7px 10px; color: #8f93a8; font-size: 11px; margin-bottom: 4px;">X</div>
+            <div style="padding: 7px 10px; color: #8f93a8; font-size: 11px; margin-bottom: 4px;">Email</div>
+            <div style="padding: 7px 10px; color: #8f93a8; font-size: 11px;">YouTube</div>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 13px; font-weight: 600; color: #e8e8ea; margin-bottom: 10px;">Google Search</div>
+            <div style="margin-bottom: 10px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 11px; color: #b8b8c0;">Headline</span>
+                <span style="font-size: 11px; color: #8fb0ff;">0 / 30</span>
+              </div>
+              <div style="height: 26px; background: #141621; border: 1px solid #2a2e47; border-radius: 4px;"></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-size: 11px; color: #b8b8c0;">Description</span>
+                <span style="font-size: 11px; color: #8fb0ff;">0 / 90</span>
+              </div>
+              <div style="height: 40px; background: #141621; border: 1px solid #2a2e47; border-radius: 4px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Sidebar Nav</h3>
+      <p>Platform list on the left, fields in the main panel. App-like. One platform at a time, always aware of what else is available.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="font-family: system-ui; padding: 16px; background: #0f1120; border-radius: 8px; min-height: 200px;">
+        <div style="border-bottom: 1px solid #23263a; padding-bottom: 12px; margin-bottom: 12px;">
+          <div style="font-size: 11px; font-weight: 600; color: #8fb0ff; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px;">Google Search</div>
+          <div style="margin-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span style="font-size: 11px; color: #b8b8c0;">Headline</span>
+              <span style="font-size: 11px; color: #8fb0ff;">0 / 30</span>
+            </div>
+            <div style="height: 26px; background: #141621; border: 1px solid #2a2e47; border-radius: 4px;"></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span style="font-size: 11px; color: #b8b8c0;">Description</span>
+              <span style="font-size: 11px; color: #8fb0ff;">0 / 90</span>
+            </div>
+            <div style="height: 34px; background: #141621; border: 1px solid #2a2e47; border-radius: 4px;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 11px; font-weight: 600; color: #8fb0ff; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px;">Meta</div>
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span style="font-size: 11px; color: #b8b8c0;">Primary text</span>
+              <span style="font-size: 11px; color: #8fb0ff;">0 / 125</span>
+            </div>
+            <div style="height: 34px; background: #141621; border: 1px solid #2a2e47; border-radius: 4px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Scrollable Sections</h3>
+      <p>All platforms in one long page, separated by section headers instead of cards. No boxes, no switching — scroll through everything at once.</p>
+    </div>
+  </div>
+
+</div>

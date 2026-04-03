@@ -1,0 +1,179 @@
+<h2>Palette Generator — Full Page Mockup</h2>
+<p class="subtitle">Approximation of the final layout with all 6 palette types. Review and let me know if this feels right.</p>
+
+<div class="mockup">
+  <div class="mockup-header">palettegenerator.html</div>
+  <div class="mockup-body" style="background:#0b0c10; color:#e8e8ea; font-family:Inter,system-ui,sans-serif; padding:24px;">
+
+    <!-- Nav stub -->
+    <div style="font-size:12px; color:#8f93a8; border-bottom:1px solid #23263a; padding-bottom:12px; margin-bottom:24px;">
+      🏠 UTM Generator | QR Code | Copy Checker | Word Counter | AP Title Caps | Symbol Library | SERP Preview | Contrast Checker | <span style="color:#8fb0ff;">Palette Generator</span>
+    </div>
+
+    <h1 style="font-family:'Instrument Serif',serif; font-size:28px; margin:0 0 6px;">Palette Generator</h1>
+    <p style="color:#b8b8c0; font-size:14px; margin:0 0 24px;">Generate color harmonies from any base color.</p>
+
+    <!-- Input card -->
+    <div style="background:#141621; border:1px solid #23263a; border-radius:12px; padding:20px; margin-bottom:24px;">
+      <label style="font-size:13px; font-weight:500; display:block; margin-bottom:8px;">Base color</label>
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <div style="width:44px;height:44px;background:#4b73ff;border-radius:8px;border:2px solid #23263a;"></div>
+        <div style="background:#0f1120;border:1px solid #23263a;border-radius:8px;padding:10px 14px;color:#e8e8ea;font-size:14px;font-family:monospace;">#4b73ff</div>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <div style="background:#4b73ff;color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;">Hex</div>
+        <div style="background:rgba(255,255,255,0.06);color:#b8b8c0;padding:5px 12px;border-radius:6px;font-size:12px;">RGB</div>
+        <div style="background:rgba(255,255,255,0.06);color:#b8b8c0;padding:5px 12px;border-radius:6px;font-size:12px;">HSL</div>
+      </div>
+    </div>
+
+    <!-- Monochromatic -->
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h2 style="font-size:15px;font-weight:600;margin:0;">Monochromatic</h2>
+        <div style="font-size:11px;color:#8f93a8;background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:4px;cursor:pointer;">Copy all</div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#162052;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#162052</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#2d3f85;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#2d3f85</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#4b73ff;border-radius:6px;border:2px solid #8fb0ff;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#e8e8ea;margin-top:6px;">#4b73ff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#8aa5ff;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#8aa5ff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#c4d4ff;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#c4d4ff</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Complementary -->
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h2 style="font-size:15px;font-weight:600;margin:0;">Complementary</h2>
+        <div style="font-size:11px;color:#8f93a8;background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:4px;cursor:pointer;">Copy all</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#4b73ff;border-radius:6px;border:2px solid #8fb0ff;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#e8e8ea;margin-top:6px;">#4b73ff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#ffb84b;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#ffb84b</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analogous -->
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h2 style="font-size:15px;font-weight:600;margin:0;">Analogous</h2>
+        <div style="font-size:11px;color:#8f93a8;background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:4px;cursor:pointer;">Copy all</div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#834bff;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#834bff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#4b4bff;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#4b4bff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#4b73ff;border-radius:6px;border:2px solid #8fb0ff;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#e8e8ea;margin-top:6px;">#4b73ff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#4bbfff;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#4bbfff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#4bffe8;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#4bffe8</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Triadic -->
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h2 style="font-size:15px;font-weight:600;margin:0;">Triadic</h2>
+        <div style="font-size:11px;color:#8f93a8;background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:4px;cursor:pointer;">Copy all</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#4b73ff;border-radius:6px;border:2px solid #8fb0ff;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#e8e8ea;margin-top:6px;">#4b73ff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#ff4b73;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#ff4b73</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#73ff4b;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#73ff4b</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Split-Complementary -->
+    <div style="margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h2 style="font-size:15px;font-weight:600;margin:0;">Split-Complementary</h2>
+        <div style="font-size:11px;color:#8f93a8;background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:4px;cursor:pointer;">Copy all</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#4b73ff;border-radius:6px;border:2px solid #8fb0ff;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#e8e8ea;margin-top:6px;">#4b73ff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#ffe04b;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#ffe04b</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#ff6a4b;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#ff6a4b</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tetradic -->
+    <div style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h2 style="font-size:15px;font-weight:600;margin:0;">Tetradic</h2>
+        <div style="font-size:11px;color:#8f93a8;background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:4px;cursor:pointer;">Copy all</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#4b73ff;border-radius:6px;border:2px solid #8fb0ff;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#e8e8ea;margin-top:6px;">#4b73ff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#4bffb8;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#4bffb8</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#ffb84b;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#ffb84b</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:72px;height:56px;background:#ff4b73;border-radius:6px;border:1px solid #23263a;"></div>
+          <div style="font-size:11px;font-family:monospace;color:#b8b8c0;margin-top:6px;">#ff4b73</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
