@@ -94,14 +94,20 @@
       cursor: pointer;
       transition: transform 0.1s;
     }
-    .swatch:hover {
-      transform: translateY(-2px);
+    @media (hover: hover) {
+      .swatch:hover {
+        transform: translateY(-2px);
+      }
     }
     .swatchColor {
       width: 72px;
+      min-width: 48px;
       height: 56px;
       border-radius: 6px;
       border: 1px solid var(--border);
+    }
+    @media (max-width: 480px) {
+      .swatchColor { width: 56px; height: 48px; }
     }
     .swatch.base .swatchColor {
       border: 2px solid var(--accent);

@@ -395,9 +395,8 @@ button:active:not(:disabled),
 .tip:focus::after {
   content: attr(data-tip);
   position: absolute;
-  left: 50%;
+  left: 0;
   top: 22px;
-  transform: translateX(-50%);
   background: var(--bg-card);
   border: 1px solid var(--border-mid);
   border-radius: var(--radius);
@@ -406,7 +405,7 @@ button:active:not(:disabled),
   font-size: 12px;
   color: var(--text);
   white-space: normal;
-  width: 240px;
+  width: min(240px, 70vw);
   z-index: 10;
 }
 
@@ -1261,6 +1260,10 @@ canvas {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
+}
+
+@media (max-width: 400px) {
+  .badgeGrid { grid-template-columns: 1fr; }
 }
 
 .badgeItem {
